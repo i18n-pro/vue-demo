@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@i18n-pro/vue": "0.1.0-alpha.1",
+    "@i18n-pro/vue": "0.1.0-alpha.2",
     "vue": "^3.3.4"
   },
   "devDependencies": {
