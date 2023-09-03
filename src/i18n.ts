@@ -2,6 +2,7 @@ import {createI18n} from '@i18n-pro/vue'
 
 export default createI18n({
   namespace: 'testNamespace',
+  with$: false,
   formatNumber({ locale, payload, t }) {
     let res = payload as string
     switch (locale) {
