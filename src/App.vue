@@ -42,77 +42,78 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useI18n } from '@i18n-pro/vue'
 
-export default {
-  data() {
-    return {
-      show: false,
-      loading: false,
-      bestProgramLang: ['JavaScript', 'Java', 'C', 'C++', 'Python', 'PHP'][
-        Math.round(Math.random() * 5)],
-      date: new Date(),
-      locales: {
-        en: 'English',
-        zh: '简体中文',
-        cht: '繁體中文',
-        jp: '日本語',
-      },
+const { setI18n, i18nState } = useI18n()
+
+const show = ref(false)
+const loading = ref(false)
+const bestProgramLang = ['JavaScript', 'Java', 'C', 'C++', 'Python', 'PHP'][
+  Math.round(Math.random() * 5)]
+const date = ref(new Date())
+const locales = {
+  en: 'English',
+  zh: '简体中文',
+  cht: '繁體中文',
+  jp: '日本語',
+}
+let timer = null
+
+async function resolveI18n(localeProp) {
+  let locale = undefined
+
+  if (localeProp) {
+    locale = localeProp
+  } else {
+    const params = new URLSearchParams(
+      new URLSearchParams(window.location.search.slice(1)),
+    )
+    locale = params.get('locale') || 'en'
+  }
+
+  let lang = {}
+  if (locale != 'zh') {
+    loading.value = true
+    let req = await fetch(`../i18n/${locale}.json`)
+    try {
+      lang = await req.json()
+    } catch (error) {
+      console.error(error)
     }
-  },
-  methods: {
-    async resolveI18n(localeProp) {
-      let locale = undefined
-
-      if (localeProp) {
-        locale = localeProp
-      } else {
-        const params = new URLSearchParams(
-          new URLSearchParams(window.location.search.slice(1)),
-        )
-        locale = params.get('locale') || 'en'
-      }
-
-      let lang = {}
-      if (locale != 'zh') {
-        this.loading = true
-        let req = await fetch(`../i18n/${locale}.json`)
-        try {
-          lang = await req.json()
-        } catch (error) {
-          console.error(error)
-        }
-        this.loading = false
-      }
-      this.setI18n({
-        langs: {
-          [locale]: lang,
-        },
-        locale,
-      })
-
-      this.show = true
+    loading.value = false
+  }
+  setI18n({
+    langs: {
+      [locale]: lang,
     },
-    onSelectChange(e) {
-      const locale = e.target.value
-      if (this.i18nState?.langs?.[locale] || locale == 'zh') {
-        this.setI18n({ locale })
-      } else {
-        this.resolveI18n(locale)
-      }
-      history.replaceState(null, '', `?locale=${locale}`)
-    }
-  },
-  mounted() {
-    this.resolveI18n()
-    this.timer = setInterval(() => {
-      this.date = new Date();
-    }, 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.timer);
-  },
-} 
+    locale,
+  })
+
+  show.value = true
+}
+
+function onSelectChange(e) {
+  const locale = e.target.value
+  if (i18nState.value?.langs?.[locale] || locale == 'zh') {
+    setI18n({ locale })
+  } else {
+    resolveI18n(locale)
+  }
+  history.replaceState(null, '', `?locale=${locale}`)
+}
+
+onMounted(() => {
+  resolveI18n()
+  timer = setInterval(() => {
+    date.value = new Date()
+  }, 1000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(timer)
+})
 </script>
 
 <style>
