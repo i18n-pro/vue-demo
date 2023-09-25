@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="show">
-      <select :value="$i18nState.locale || 'zh'" @change="onSelectChange">
+      <select :value="i18nState.locale || 'zh'" @change="onSelectChange">
         <option v-for="item in Object.entries(locales)" :value="item[0]" :key="item[0]">
           {{ item[1] }}
         </option>
@@ -46,7 +46,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from '@i18n-pro/vue'
 
-const { $setI18n, $i18nState } = useI18n()
+const { setI18n, i18nState } = useI18n()
 
 const show = ref(false)
 const loading = ref(false)
@@ -84,7 +84,7 @@ async function resolveI18n(localeProp) {
     }
     loading.value = false
   }
-  $setI18n({
+  setI18n({
     langs: {
       [locale]: lang,
     },
@@ -96,8 +96,8 @@ async function resolveI18n(localeProp) {
 
 function onSelectChange(e) {
   const locale = e.target.value
-  if ($i18nState.value?.langs?.[locale] || locale == 'zh') {
-    $setI18n({ locale })
+  if (i18nState.value?.langs?.[locale] || locale == 'zh') {
+    setI18n({ locale })
   } else {
     resolveI18n(locale)
   }
