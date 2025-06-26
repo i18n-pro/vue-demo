@@ -1,8 +1,16 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution":"Node",
-    "allowJs": true
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/"],
+  "include": [
+    "src/",
+    "i18nrc.ts"
+  ],
 }
