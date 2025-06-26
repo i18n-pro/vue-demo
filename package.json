@@ -8,10 +8,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@i18n-pro/vue": "1",
+    "@i18n-pro/vue": "2.0.0-alpha.1",
+    "i18n-pro": "3.0.0-alpha.2",
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@types/node": "^24.0.4",
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
