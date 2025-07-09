@@ -49,7 +49,7 @@ import { useI18n } from '@i18n-pro/vue'
 
 const { setI18n, i18nState } = useI18n()
 
-const loading = ref(false)
+let loading = false
 const bestProgramLang = ['JavaScript', 'Java', 'C', 'C++', 'Python', 'PHP'][
   Math.round(Math.random() * 5)]
 const date = ref(new Date())
@@ -63,10 +63,16 @@ let timer = null
 
 async function onSelectChange(e) {
   const locale = e.target.value
-  await setI18n({
-    locale
-  })
-  history.replaceState(null, '', `?locale=${locale}`)
+  loading = true
+  try {
+    await setI18n({
+      locale
+    })
+    history.replaceState(null, '', `?locale=${locale}`)
+  } catch (error) {
+    console.error(error)
+  }
+  loading = false
 }
 
 onMounted(() => {
