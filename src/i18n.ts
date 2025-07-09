@@ -2,7 +2,7 @@ import {I18nState} from '@i18n-pro/vue'
 
  const initI18nState: I18nState = {
   namespace: 'testNamespace',
-    langs: {
+  langs: {
     en: () => import('../i18n/en.json').then(res=>res.default),
     cht: () => import('../i18n/cht.json').then(res=>res.default),
     jp: () => import('../i18n/jp.json').then(res=>res.default),
