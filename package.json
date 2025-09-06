@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@i18n-pro/vue": "2.0.0-alpha.1",
-    "i18n-pro": "3.0.0-alpha.2",
+    "@i18n-pro/vue": "2.0.0",
+    "i18n-pro": "3.0.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
